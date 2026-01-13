@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tienda.MainPage"
+             Title="BIENVENIDA"
+             BackgroundColor="{StaticResource AmarilloClaro}">
+
+    <!--<VerticalStackLayout
+        HorizontalOptions="Fill"
+        VerticalOptions="Fill"
+        Margin="65" 
+        Spacing="50"
+        
+     >-->
+
+    <Grid
+        RowDefinitions="320,230, 200"
+        ColumnDefinitions="450,532,387"
+        Margin="50"
+        >
+
+        <!--Imagen-->
+        <Image x:Name="imgLogo"  Source="zapa.png" 
+               WidthRequest="400" HeightRequest="400"
+               Grid.Column="1" Grid.Row="0"/>
+
+        <Label Text="SPRAY and SOLE" FontSize="75"
+               HorizontalOptions="Center"
+               FontFamily="Aerosoldier"
+               Grid.Column="1" Grid.Row="1"
+               VerticalOptions="Center"
+               TextColor="{StaticResource AzulOscuro}"/>
+
+        <!--Fecha y hora-->
+        <Label x:Name="lblFechaHora"
+               VerticalOptions="End"
+               FontSize="40"
+               CharacterSpacing="4"
+               Margin="0, 100, 0, 0"
+               Grid.Column="0" Grid.Row="2"
+               HeightRequest="100"
+               TextColor="{StaticResource AzulOscuro}"/>
+
+        <!--dibujos-->
+        <!--IZQUIERDA-->
+        <VerticalStackLayout
+            Grid.Column="0" Grid.Row="0"
+            Spacing="60">
+            <HorizontalStackLayout
+                Spacing="50">
+                <Label Text="b"
+               FontFamily="aerosoldier_symbol"
+               />
+                <Label Text="i"
+                    FontFamily="aerosoldier_symbol"
+                   FontSize="65"
+             />
+
+                <Label Text="b"
+                FontFamily="aerosoldier_symbol"
+            />
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout
+               Spacing="50">
+
+                <Label Text="g"
+                     FontFamily="aerosoldier_symbol"
+                     FontSize="50"
+                       HorizontalOptions="Start"
+                />
+
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+
+        <VerticalStackLayout
+            Grid.Column="0" Grid.Row="1"
+            Margin="70,0,70,0"
+            >
+
+            <Label Text="v"
+                FontFamily="aerosoldier_symbol"
+                FontSize="65"
+                   HorizontalOptions="End"
+             />
+            <Label Text="l"
+       FontFamily="aerosoldier_symbol"
+          VerticalOptions="End"
+                   HorizontalOptions="Start"
+   />
+        </VerticalStackLayout>
+
+
+        <!--DERECHA-->
+        <VerticalStackLayout
+            Grid.Column="2" Grid.Row="0"
+            Spacing="80">
+            <HorizontalStackLayout
+               Spacing="50"
+                Margin="70,0,0,0">
+
+                <Label Text="e"
+              FontFamily="aerosoldier_symbol"
+              />
+                <Label Text="d"
+                   FontFamily="aerosoldier_symbol"
+                  FontSize="65"
+            />
+
+                <Label Text="e"
+               FontFamily="aerosoldier_symbol"
+           />
+            </HorizontalStackLayout>
+
+            <VerticalStackLayout 
+                HorizontalOptions="End"
+                Margin="0,0,70,0">
+                <Label Text="r"    
+                    FontFamily="aerosoldier_symbol"
+                       FontSize="70"
+                />
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+
+        <HorizontalStackLayout
+              Grid.Column="2" Grid.Row="1"
+               Margin="70,0,0,0">
+
+            <Label Text="f"
+                   FontFamily="aerosoldier_symbol"
+                  FontSize="65"
+            />
+            <Label Text="gl"
+                FontFamily="aerosoldier_symbol"
+                FontSize="45"
+           VerticalOptions="End"
+/>
+        </HorizontalStackLayout>
+
+        <HorizontalStackLayout
+                 VerticalOptions="End"
+                Grid.Column="2" Grid.Row="2"
+            Margin="100,0,0,30"
+                >
+            <Label Text="Ocultar reloj" 
+                   VerticalOptions="Center"
+                   Margin="0,0,30,0"
+                   TextColor="{StaticResource AzulOscuro}"/>
+            <Switch x:Name="swModoOscuro" 
+                    VerticalOptions="Center"
+                    WidthRequest="10"/>
+        </HorizontalStackLayout>
+
+
+
+        <!--Centro-->
+        <HorizontalStackLayout
+             Grid.Column="1" Grid.Row="2"
+             Margin="70,0,0,0"
+            Spacing="90">
+
+            <Label Text="oko"
+                 FontFamily="aerosoldier_symbol"
+                 FontSize="65"
+            />
+
+            <Label Text="nb"
+                FontFamily="aerosoldier_symbol"
+                FontSize="65"
+                   VerticalOptions="End"
+        />
+        </HorizontalStackLayout>
+    </Grid>
+</ContentPage>

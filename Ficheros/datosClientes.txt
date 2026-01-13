@@ -1,0 +1,13 @@
+Luis#Fernandez Alcaraz#Madrid#lfa@pmail.com#Elegante#False
+Maria#Huerta Perines#Ceuta#mhp@yaju.es#Simpatica y alta#False
+Bermudo#Kilom Poope#Madrid#bkp@reko.ism#muy joven#True
+Noa#Lopez Fenoll#Madrid#noa.lopez@gmail.com#Me gusta#True
+Ainhoa#Quintero Garzon#Coslada#ainhoa@gmail.com#Guay#False
+Susana#Pineros Lajara#Coslada#susprogramm@gmail.com#Genial#False
+Celia#Megara Santolaya#Madrid#celia@gmail.com#genial#False
+Ainhoa#Gil Laine#Madrid#ainhoagl@gmail.com#Perfecto#False
+Patri#López Sierra#Torrejón de Ardoz#patri@gmail.com#Estupendo#False
+Juan#Gonzalez Perez#San Fernando#juanito@gmail.com#Bien#True
+Álvaro#Lopez Marmol#Alemania#alvarolm@gmail.com#Estupendo#True
+Laura#Cerrudo Perez#Madrid#laucp@gmail.com#Bien bien#False
+Rodrigo#Marcuccini Lopez#Madrid#rodrigo@gmail.com#Mal#False

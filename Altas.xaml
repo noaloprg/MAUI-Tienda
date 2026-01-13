@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tienda.Altas"
+             Title="Altas"
+             BackgroundColor="{StaticResource AmarilloClaro}">
+
+    <!--Clicked="OnGuardarClicked"-->
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Añadir" IconImageSource="zapa.png" Clicked="onClickAnyadir" />
+        <ToolbarItem Text="Modificar" Clicked="onClickModificar"/>
+        <ToolbarItem Text="Guardar" Clicked="onClickGuardar"/>
+        <ToolbarItem Text="Borrar" Clicked="onClickBorrar"/>
+        <ToolbarItem Text="Limpiar" Clicked="onClickLimpiar"/>
+
+    </ContentPage.ToolbarItems>
+
+    <Grid  
+        RowDefinitions ="Auto, Auto,Auto, Auto, Auto,Auto, Auto, Auto,Auto,Auto"
+        ColumnDefinitions="500, 800"
+        ColumnSpacing="100"
+        
+        >
+
+        <!--logo tienda-->
+        <Image Source="zapa.png" 
+               HeightRequest="280" WidthRequest="300"
+               Grid.Row="0" Grid.Column="0" 
+               Grid.RowSpan="3"
+               Margin="50,0,0,0"/>
+
+        <!--Fila de rellenar campos - Fila 1-->
+        <Label Text="Nombre:"
+               Grid.Column="1" Grid.Row="0"
+               Style="{StaticResource encabezadoAlta}"/>
+
+        <Entry x:Name="etNombre"
+               Grid.Row="1" Grid.Column="1"
+               Placeholder="Ingrese el nombre"
+               HeightRequest="46.4"
+               MaxLength="25"/>
+
+        <Label Text="Apellidos: "
+               Grid.Row="2" Grid.Column="1"
+               Style="{StaticResource encabezadoAlta}"/>
+
+
+        <Entry x:Name="etApellidos"
+               Grid.Row="3" Grid.Column="1"
+               Placeholder="Ingrese sus apellidos"
+               MaxLength="25"/>
+
+        <Label Text="Ciudad: "
+          Grid.Row="4" Grid.Column="1"
+          Style="{StaticResource encabezadoAlta}"/>
+
+
+        <Entry x:Name="etCiudad"
+          Grid.Row="5" Grid.Column="1"
+          Placeholder="Ingrese su ciudad"
+               Margin="0,18"
+               MaxLength="25"/>
+
+        <Label Text="Correo electónico: "
+            Grid.Row="6" Grid.Column="1"
+            Style="{StaticResource encabezadoAlta}"
+              />
+
+
+        <Entry x:Name="etCorreo"
+            Grid.Row="7" Grid.Column="1"
+            Placeholder="Ingrese su ciudad"
+            Margin="0,18"
+                MaxLength="50"/>
+
+        <Label Text="Comentarios: "
+            Grid.Row="8" Grid.Column="1"
+            Style="{StaticResource encabezadoAlta}"/>
+
+
+        <Editor x:Name="edComentario"
+            Grid.Row="9" Grid.Column="1"
+            Placeholder="Escriba su comentario (Máx 60)"
+            Margin="0,18"
+            HeightRequest="100"/>
+
+        <Label Text="Clientes: "
+               Grid.Column="0" Grid.Row="4"
+               Margin="50,0,0,0"
+               Style="{StaticResource encabezadoAlta}"
+              />
+        <!--lista de clientes-->
+        <ListView x:Name="lvClientes" 
+                  Grid.Row="5" Grid.Column="0"
+                  Grid.RowSpan="4"
+                  Margin="50,0, 0,0"
+                  ItemSelected="lvClientes_ItemSlected"
+                  HeightRequest="250">
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <VerticalStackLayout
+                            Spacing="40"
+                            Padding="0,5,0,0"> 
+                            <Label Text="{Binding nombreCompleto}" 
+                                   Style="{StaticResource listViewLabel}"
+                                   />
+                        </VerticalStackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <!--CheckBox vip-->
+        <HorizontalStackLayout
+            Grid.Column="0"
+            Grid.Row="9"
+            Margin="50, 15, 0,0"
+            HorizontalOptions="End"
+            Spacing="10"
+            >
+
+            <!--solo cambia el estado del atributo, no tiene lógica por eso no usar método-->
+
+            
+            <Image x:Name="imgVip" Source="public.png"
+                    WidthRequest="170"
+                    HeightRequest="150"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"/>
+
+            <CheckBox x:Name="cbVip"
+                        VerticalOptions="Center"
+                      HorizontalOptions="Center"
+           />
+
+            
+        </HorizontalStackLayout>
+
+    </Grid>
+</ContentPage>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tienda.ConsultaIndividual"
+             Title="ConsultaIndividual"
+             BackgroundColor="{StaticResource AmarilloClaro}">
+
+    <Grid
+        ColumnDefinitions="*"
+        RowDefinitions="Auto,Auto, *"
+        Margin="50,50,0,0"
+        RowSpacing="50">
+
+        <Entry x:Name="etBuscador" Placeholder="Buscar cliente..."
+               Grid.Row="0"/>
+
+        <HorizontalStackLayout Grid.Row="1"
+                               Spacing="100" HorizontalOptions="Center">
+            
+            <Button Text="Anterior"  x:Name="btnAnterior"
+                    BackgroundColor="{StaticResource AzulClaro}"
+                    TextColor="{StaticResource AzulOscuro}"/>
+            
+            <Button Text="Siguiente" x:Name="btnSig"/>
+        </HorizontalStackLayout>
+
+        <CollectionView Grid.Row="2" x:Name="cvConsultaIndividual"
+                        SelectionMode="Single">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical"
+                                       ItemSpacing="50"/>
+            </CollectionView.ItemsLayout>
+            
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <VerticalStackLayout>
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+
+                                    <VisualState x:Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="{StaticResource AzulClaro}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+                        </VisualStateManager.VisualStateGroups>
+                        
+                        <Image  Source="{Binding vip, Converter={StaticResource VIPConverter}}"
+                           HeightRequest="150" WidthRequest="150"/>
+
+                        <Label Text="{Binding nombre}" Style="{StaticResource consultaCuerpoLabel}"/>
+                        <Label Text="{Binding apellidos}" Style="{StaticResource consultaCuerpoLabel}"/>
+                        <Label Text="{Binding ciudad}" Style="{StaticResource consultaCuerpoLabel}"/>
+                        <Label Text="{Binding correo}" Style="{StaticResource consultaCuerpoLabel}"/>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        
+    </Grid>
+    
+</ContentPage>

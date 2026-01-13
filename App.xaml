@@ -1,0 +1,122 @@
+﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Tienda"
+             xmlns:converters="clr-namespace:Tienda.Convertidores"
+             x:Class="Tienda.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <converters:VIPConverter x:Key="VIPConverter"/>
+
+            <!--TabbedPage-->
+            <Style TargetType="local:AppShell">
+                <Setter Property="Shell.BackgroundColor" Value="{StaticResource AzulOscuro}"/>
+                <Setter Property="Shell.TabBarUnselectedColor" Value="{StaticResource AmarilloClaro}"/>
+                <Setter Property="Shell.TabBarTitleColor" Value="{StaticResource AzulClaro}"/>
+                <Setter Property="Shell.TitleColor" Value="{StaticResource AmarilloClaro}"/>
+                <Setter Property="Shell.TabBarForegroundColor" Value="{StaticResource RojoCoral}"/>
+            </Style>
+
+            <!--Label General-->
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource MoradoCiruela}"/>
+                <Setter Property="FontSize" Value="25"/>
+                <Setter Property="FontFamily" Value="Network"/>
+            </Style>
+
+            <!--label encabezados pantalla alta-->
+            <Style TargetType="Label" x:Key="encabezadoAlta">
+                <Setter Property="FontSize" Value="30"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="Margin" Value="0,20,0,0"/>
+
+            </Style>
+
+            <!--label con fuente de símbolos-->
+            <Style TargetType="Label" x:Key="simbolosLabel">
+                <Setter Property="FontFamily" Value="aerosoldier_symbol"/>
+            </Style>
+
+            <!--label CollectionView headers Consulta-->
+            <Style TargetType="Label" x:Key="consultaHeaderLabel">
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="FontSize" Value="30"/>
+            </Style>
+
+            <!--label CollectionView datos Consulta-->
+            <Style TargetType="Label" x:Key="consultaCuerpoLabel">
+                <Setter Property="TextColor" Value="{StaticResource AzulOscuro}"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="FontFamily" Value="jumpis"/>
+                <Setter Property="FontSize" Value="25"/>
+            </Style>
+
+            <!--Entry General-->
+            <Style TargetType="Entry">
+                <Setter Property="TextColor" Value="{StaticResource RojoCoral}"/>
+                <Setter Property="PlaceholderColor" Value="{StaticResource AzulOscuro}"/>
+                <Setter Property="FontFamily" Value="jumpis"/>
+                <Setter Property="FontSize" Value="25"/>
+                <Setter Property="MaxLength" Value="60"/>
+            </Style>
+
+            <!--ListView-->
+            <Style TargetType="ListView">
+                <Setter Property="SeparatorColor" Value="{StaticResource AmarilloClaro}"/>
+                <Setter Property="BackgroundColor" Value="{StaticResource AzulOscuro}"/>
+            </Style>
+
+            <!--label de ListView-->
+            <Style TargetType="Label" x:Key="listViewLabel">
+                <Setter Property="TextColor" Value="{StaticResource AmarilloClaro}"/>
+                <Setter Property="FontSize" Value="25"/>
+                <Setter Property="FontFamily" Value="jumpis"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+            </Style>
+
+            <!--CheckBox-->
+            <Style TargetType="CheckBox">
+                <Setter Property="Color" Value="{StaticResource MoradoCiruela}"/>
+            </Style>
+
+            <!--Boton-->
+            <Style TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource AzulOscuro}"/>
+                <Setter Property="TextColor" Value="{StaticResource AmarilloClaro}"/>
+                <Setter Property="FontFamily" Value="Network"/>
+                <Setter Property="FontSize" Value="30"/>
+            </Style>
+
+            <!--Editor-->
+            <Style TargetType="Editor">
+                <Setter Property="TextColor" Value="{StaticResource RojoCoral}"/>
+                <Setter Property="PlaceholderColor" Value="{StaticResource AzulOscuro}"/>
+                <Setter Property="FontFamily" Value="jumpis"/>
+                <Setter Property="FontSize" Value="25"/>
+                <Setter Property="MaxLength" Value="60"/>
+            </Style>
+
+            <!--Picker-->
+            <Style TargetType="Picker">
+                <Setter Property="FontFamily" Value="Network"/>
+                <Setter Property="TitleColor" Value="{StaticResource MoradoCiruela}"/>
+                <Setter Property="TextColor" Value="{StaticResource AmarilloClaro}"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="FontSize" Value="30"/>
+                <Setter Property="BackgroundColor" Value="{StaticResource AzulOscuro}"/>
+                <Setter Property="Margin" Value="0,50,0,0"/>
+            </Style>
+
+            <!--Switch-->
+            <Style TargetType="Switch">
+                <Setter Property="OnColor" Value="{StaticResource MoradoCiruela}"/>
+                <Setter Property="ThumbColor" Value="{StaticResource AzulClaro}"/>
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
