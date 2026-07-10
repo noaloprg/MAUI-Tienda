@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Tienda.Consulta"
-             Title="Consulta"
+             Title="Consulta de todos los clientes"
              BackgroundColor="{StaticResource AmarilloClaro}"
             >
 
@@ -27,7 +27,6 @@
                         SelectionMode="None"
                         Margin="30,70,0,0"
                         >
-
             <!--Encabezados-->
             <CollectionView.Header>
                 <Grid 
@@ -44,20 +43,30 @@
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Border Margin="0,5" 
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems Mode="Reveal">
+                                <SwipeItem Text="Borrar"
+                                BackgroundColor="Red"
+                                Clicked="OnBorrarClick" />
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+
+                        <Border Margin="0,5" 
                             Padding="10" BackgroundColor="{StaticResource AmarilloClaro}" Stroke="{StaticResource AzulClaro}">
 
-                        <Grid 
+                            <Grid 
                         ColumnDefinitions="*,*,*,*,*,*"
                         >
-                            <Label Text="{Binding apellidos}" Grid.Column="0" Style="{StaticResource consultaCuerpoLabel}"/>
-                            <Label Text="{Binding nombre}" Grid.Column="1" Style="{StaticResource consultaCuerpoLabel}"/>
-                            <Label Text="{Binding ciudad}" Grid.Column="2" Style="{StaticResource consultaCuerpoLabel}"/>
-                            <Label Text="{Binding correo}" Grid.Column="3" Style="{StaticResource consultaCuerpoLabel}"/>
-                            <Label Text="{Binding comentario}" Grid.Column="4" Style="{StaticResource consultaCuerpoLabel}"/>
-                            <Label Text="{Binding vip}" Grid.Column="5" Style="{StaticResource consultaCuerpoLabel}"/>
-                        </Grid>
-                    </Border>
+                                <Label Text="{Binding apellidos}" Grid.Column="0" Style="{StaticResource consultaCuerpoLabel}"/>
+                                <Label Text="{Binding nombre}" Grid.Column="1" Style="{StaticResource consultaCuerpoLabel}"/>
+                                <Label Text="{Binding ciudad}" Grid.Column="2" Style="{StaticResource consultaCuerpoLabel}"/>
+                                <Label Text="{Binding correo}" Grid.Column="3" Style="{StaticResource consultaCuerpoLabel}"/>
+                                <Label Text="{Binding comentario}" Grid.Column="4" Style="{StaticResource consultaCuerpoLabel}"/>
+                                <Label Text="{Binding vip}" Grid.Column="5" Style="{StaticResource consultaCuerpoLabel}"/>
+                            </Grid>
+                        </Border>
+                    </SwipeView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

@@ -62,30 +62,6 @@ public partial class Altas : ContentPage
 
     }
 
-    //modifica lista de clientes
-    private async void onClickBorrar(object sender, EventArgs e)
-    {
-        //cliente con datos editados
-        cliente = await CrearCliente();
-
-        bool confirmacion = await DisplayAlert("Eliminar", "¿Seguro que desea eliminar?", "Confirmar", "Cancelar");
-
-        if (confirmacion)
-        {
-            if (cliente != null)
-            {
-                if (!listaClientes.Contains(cliente)) await DisplayAlert("Error", "El cliente no existe", "Volver");
-                else
-                {
-                    listaClientes.Remove(cliente);
-                    await DisplayAlert("Eliminado", $"El cliente {cliente.correo} ha sido eliminado ", "Volver");
-                }
-            }
-            else await DisplayAlert("Error", "No hay cliente seleccionado", "Volver");
-        }
-        else await DisplayAlert("Cancelado", "No se ha elimnado nada", "Volver");
-    }
-
     //gestiona la seleccion de un cliente
     private void lvClientes_ItemSlected(object sender, SelectedItemChangedEventArgs e)
     {

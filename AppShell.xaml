@@ -9,8 +9,8 @@
     <TabBar>
 
         <ShellContent Title="Bienvenida" ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" />
-        <ShellContent Title="Altas" Route="altas" ContentTemplate="{DataTemplate local:Altas}"/>
-        <ShellContent Title="Consulta Lista" Route="consulta" ContentTemplate="{DataTemplate local:Consulta}"/>
+        <ShellContent Title="Altas clientes" Route="altas" ContentTemplate="{DataTemplate local:Altas}"/>
+        <ShellContent Title="Listado clientes" Route="consulta" ContentTemplate="{DataTemplate local:Consulta}"/>
         <ShellContent Title="Consulta individual" Route="consultaIndividual" ContentTemplate="{DataTemplate local:ConsultaIndividual}"/>
     </TabBar>
 </Shell>

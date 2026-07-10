@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Tienda.Altas"
-             Title="Altas"
+             Title="Altas de clientes"
              BackgroundColor="{StaticResource AmarilloClaro}">
 
     <!--Clicked="OnGuardarClicked"-->
@@ -10,7 +10,6 @@
         <ToolbarItem Text="Añadir" IconImageSource="zapa.png" Clicked="onClickAnyadir" />
         <ToolbarItem Text="Modificar" Clicked="onClickModificar"/>
         <ToolbarItem Text="Guardar" Clicked="onClickGuardar"/>
-        <ToolbarItem Text="Borrar" Clicked="onClickBorrar"/>
         <ToolbarItem Text="Limpiar" Clicked="onClickLimpiar"/>
 
     </ContentPage.ToolbarItems>

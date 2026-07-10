@@ -10,10 +10,10 @@ public partial class Consulta : ContentPage
     public Consulta()
     {
         InitializeComponent();
-        
+
     }
 
-    //solo se utiliza el método cuando es disparado por el listener de los Picker
+    //solo se utiliza el método cuando es disparado por el listener de los Picker o cuando se elimina un cliente
     private void SetDatosCollection()
     {
         //almacenar los indices del valor seleccionado en los Pickers
@@ -58,6 +58,32 @@ public partial class Consulta : ContentPage
 
     }
 
+    // Listener para borrar a un cliente
+    private async void OnBorrarClick(object sender, EventArgs e)
+    {
+        var seleccion = sender as SwipeItem;
+
+        var cliente = seleccion.BindingContext as Cliente;
+
+        bool confirmacion = await DisplayAlert("Eliminar", "¿Seguro que desea eliminar?", "Confirmar", "Cancelar");
+
+        if (confirmacion)
+        {
+            if (seleccion != null)
+            {
+                if (!listaClientes.Contains(cliente)) await DisplayAlert("Error", "El cliente no existe", "Volver");
+                else
+                {
+                    listaClientes.Remove(cliente);
+                    await DisplayAlert("Eliminado", $"El cliente {cliente.correo} ha sido eliminado ", "Volver");
+                    SetDatosCollection();
+                }
+            }
+            else await DisplayAlert("Error", "No hay cliente seleccionado", "Volver");
+        }
+        else await DisplayAlert("Cancelado", "No se ha elimnado nada", "Volver");
+    }
+
     private void Listeners()
     {
         //asignar a los listeners de los Picker lo métodos que modifican el CollectionView
@@ -85,7 +111,4 @@ public partial class Consulta : ContentPage
         AsignarPicker();
         Listeners();
     }
-
-
-
 }
