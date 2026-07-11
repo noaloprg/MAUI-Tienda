@@ -8,15 +8,15 @@ namespace Tienda.Modelo
 {
     class Cliente
     {
-        public Cliente(string nombre, string apellidos, string correo, string ciudad, string comentario, bool vip)
+        public Cliente(int id, string nombre, string apellidos, string correo, string ciudad, string comentario, bool vip)
         {
+            this.id = id;
             this.correo = correo;
             this.apellidos = apellidos;
             this.nombre = nombre;
             this.ciudad = ciudad;
             this.comentario = comentario;
             this.vip = vip;
-            this.nombreCompleto = $"{apellidos} {nombre}";
         }
 
         public Cliente()
@@ -24,14 +24,13 @@ namespace Tienda.Modelo
 
         }
 
-        public string correo {  get; set; }
+        public int id { get; set; }
+        public string correo { get; set; }
         public string nombre { get; set; }
         public string apellidos { get; set; }
-        public string ciudad {  get; set; }
+        public string ciudad { get; set; }
         public string comentario { get; set; }
-        public bool vip {  get; set; }
-
-        public string nombreCompleto { get; set; }
+        public bool vip { get; set; }
 
         public override bool Equals(object? obj)
         {
