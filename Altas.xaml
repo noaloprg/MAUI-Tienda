@@ -7,9 +7,8 @@
 
     <!--Clicked="OnGuardarClicked"-->
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Añadir" IconImageSource="zapa.png" Clicked="onClickAnyadir" />
+        <ToolbarItem Text="Añadir cliente" IconImageSource="zapa.png" Clicked="onClickAnyadir" />
         <ToolbarItem Text="Modificar" Clicked="onClickModificar"/>
-        <ToolbarItem Text="Guardar" Clicked="onClickGuardar"/>
         <ToolbarItem Text="Limpiar" Clicked="onClickLimpiar"/>
 
     </ContentPage.ToolbarItems>
@@ -99,13 +98,17 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <VerticalStackLayout
-                            Spacing="40"
-                            Padding="0,5,0,0"> 
-                            <Label Text="{Binding nombreCompleto}" 
+                        <Grid ColumnDefinitions="*,*"
+                            Padding="0,5,0,0">
+                            <Label Text="{Binding nombre}" 
                                    Style="{StaticResource listViewLabel}"
+                                   Grid.Column="0"
                                    />
-                        </VerticalStackLayout>
+                            <Label Text="{Binding apellidos}" 
+                                    Style="{StaticResource listViewLabel}"
+                                    Grid.Column="1"
+                                    />
+                        </Grid>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
