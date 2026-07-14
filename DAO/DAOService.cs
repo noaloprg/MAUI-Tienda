@@ -122,5 +122,30 @@ namespace Tienda.DAO
                 return false;
             }
         }
+
+        // Elimina un cliente segun su correo electronico
+        public static async Task<bool> EliminarClienteByCorreo(Cliente cl)
+        {
+
+            try
+            {
+                using (var conexion = GetConexion())
+                {
+                    await conexion.OpenAsync();
+
+                    using (var command = new SqliteCommand(ClienteDAO.DeleteClieneByCorreo(), conexion))
+                    {
+                        command.Parameters.AddWithValue("@correo", cl.correo);
+                     
+                        await command.ExecuteNonQueryAsync();
+                        return true;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
     }
 }
