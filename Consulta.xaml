@@ -7,23 +7,29 @@
             >
 
     <Grid
-        ColumnDefinitions="*,*"
+        ColumnDefinitions="*,*, *"
         RowDefinitions="Auto,600">
+
+        <!--Boton para eliminar los filtros de los pickers-->
+        <Button x:Name="btnSinFiltros" Text="Eliminar filtros" 
+                Grid.Column="1" Grid.Row="0"
+                Margin="0,75,0,0"
+                HeightRequest="70" WidthRequest="260"/>
 
         <!--Pickers-->
         <Picker x:Name="pkCiudad" Title="Seleccione una ciudad"
                 Grid.Row="0" Grid.Column="0"
                 />
-
+        
         <Picker x:Name="pkVip" Title="VIP / No VIP"
-                Grid.Row="0" Grid.Column="1"
+                Grid.Row="0" Grid.Column="2"
                 />
 
 
         <!--collectionView-->
         <CollectionView x:Name="cvClientes"
                         Grid.Column="0" Grid.Row="1" 
-                        Grid.ColumnSpan="2"
+                        Grid.ColumnSpan="3"
                         SelectionMode="None"
                         Margin="30,70,0,0"
                         >
@@ -46,7 +52,7 @@
                     <SwipeView>
                         <SwipeView.RightItems>
                             <SwipeItems Mode="Reveal">
-                                <SwipeItem Text="Borrar"
+                                <SwipeItem Text="Eliminar cliente"
                                 BackgroundColor="Red"
                                 Clicked="OnBorrarClick" />
                             </SwipeItems>

@@ -1,11 +1,15 @@
+using System.Threading.Tasks;
+using Tienda.DAO;
 using Tienda.Modelo;
 
 namespace Tienda;
 
 public partial class Consulta : ContentPage
 {
-    private static List<String> listaCiudades;
-    private static List<String> listaVIP;
+    // listas que se mostraran en los pickers
+    private static List<string> listaCiudades;
+    private static List<string> listaVIP;
+
     private static List<Cliente> listaClientes;
     public Consulta()
     {
@@ -61,8 +65,8 @@ public partial class Consulta : ContentPage
     // Listener para borrar a un cliente
     private async void OnBorrarClick(object sender, EventArgs e)
     {
+        // SwipeItem que contiene el objeto del Binding
         var seleccion = sender as SwipeItem;
-
         var cliente = seleccion.BindingContext as Cliente;
 
         bool confirmacion = await DisplayAlert("Eliminar", "¿Seguro que desea eliminar?", "Confirmar", "Cancelar");
@@ -90,6 +94,14 @@ public partial class Consulta : ContentPage
         //cada vez que el index cambia, que ejecute el método que cambia la lista segun los indices
         pkCiudad.SelectedIndexChanged += (s, e) => SetDatosCollection();
         pkVip.SelectedIndexChanged += (s, e) => SetDatosCollection();
+
+        // limpia la seleccion de los pickers
+        btnSinFiltros.Clicked += (s, e) =>
+        {
+            pkCiudad.SelectedItem = null;
+            pkVip.SelectedItem = null;
+
+        };
     }
 
     protected override void OnAppearing()
@@ -97,7 +109,8 @@ public partial class Consulta : ContentPage
         base.OnAppearing();
         Inicializar();
     }
-    private void Inicializar()
+
+    private async Task Inicializar()
     {
         listaCiudades = new List<string>();
         listaVIP = new List<string>
@@ -105,7 +118,7 @@ public partial class Consulta : ContentPage
             "Vip", "No VIP"
         };
 
-        listaClientes = ClienteRepository.GetClientesTxt();
+        listaClientes = await DAOService.GetAllClientes();
         cvClientes.ItemsSource = listaClientes;
 
         AsignarPicker();
