@@ -10,9 +10,9 @@ namespace Tienda.DAO
     internal class ClienteDAO
     {
 
-        private const String NOMBRE_TABLA = "clientes";
+        private const string NOMBRE_TABLA = "clientes";
 
-        public static String CreateTable()
+        public static string CreateTable()
         {
             return $"CREATE TABLE IF NOT EXISTS {NOMBRE_TABLA} (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -21,22 +21,25 @@ namespace Tienda.DAO
                 "nombre VARCHAR," +
                 "ciudad VARCHAR," +
                 "comentario TEXT," +
-                "vip INTEGER," +
+                "vip INTEGER" +
                 ");";
         }
 
-        public static String Insert()
+        public static string InsertNewCliente()
         {
             return $"INSERT INTO {NOMBRE_TABLA} (correo, apellidos, nombre, ciudad, comentario, vip)" +
-                $" VALUES (@correo, @apellidos, @nombre, @ciudad, @comentario, @vip);" ;
+                $" VALUES (@correo, @apellidos, @nombre, @ciudad, @comentario, @vip);";
         }
 
-        public static String DeleteClieneByCorreo()
+        // elimina a un cliente según el correo
+        public static string DeleteClieneByCorreo()
         {
             return $"DELETE FROM {NOMBRE_TABLA} WHERE correo = @correo";
         }
 
-        public static String UpdateAllFields()
+
+        // actualizado completo 
+        public static string UpdateAllFields()
         {
             return $"UPDATE {NOMBRE_TABLA} " +
                 $"SET " +
@@ -44,9 +47,14 @@ namespace Tienda.DAO
                 $"apellidos = @apellidos, " +
                 $"nombre = @nombre, " +
                 $"ciudad = @ciudad, " +
-                $"comentrio =  @comentario, " +
+                $"comentario =  @comentario, " +
                 $"vip = @vip " +
                 $"WHERE id = @id;";
+        }
+
+        public static string GetAll()
+        {
+            return $"SELECT * FROM {NOMBRE_TABLA}";
         }
     }
 }
