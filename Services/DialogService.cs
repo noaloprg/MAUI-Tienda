@@ -35,8 +35,15 @@ namespace Tienda.Services
         // Muestra un dialogo cuando la accion es incorrecta
         public static async void AlertDialogError(string causa, string mensaje)
         {
-            // 
             ShowAlertDialog($"Error. {causa}", $"{mensaje}, vuelva a intentarlo");
+        }
+
+        // Metodo para obtener la alerta de decision
+        public static async Task<bool> AlertDialogSelect(string titulo, string mensaje)
+        {
+            if (Shell.Current != null)
+                return await Shell.Current.DisplayAlert(titulo, mensaje, "aceptar", "cancelar");
+            else return false;
         }
 
     }
