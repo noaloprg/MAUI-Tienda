@@ -1,14 +1,24 @@
 using System.Threading.Tasks;
+using Tienda.DAO;
 using Tienda.Modelo;
+using Tienda.Services;
 
 namespace Tienda;
 
 public partial class Altas : ContentPage
 {
-    private List<Entry> listaEntradas;
+    // lista de los entry que se deben rellenar
+    private List<Entry> listaCamposEntrada;
+
+    // lista con los datos introducidos en los campos
     private List<String> listaDatosAlta;
+
+    // lista de clientes que contiene la BD
     private List<Cliente> listaClientes;
+
+    // cliente seleccionado
     private Cliente cliente;
+
     public Altas()
     {
         InitializeComponent();
@@ -22,20 +32,27 @@ public partial class Altas : ContentPage
         Limpiar();
     }
 
-    //modifica lista
+    // listener para AÑADIR cliente
     private async void onClickAnyadir(object sender, EventArgs e)
     {
         cliente = await CrearCliente();
 
         if (cliente == null) return;
 
-        if (!listaClientes.Contains(cliente))
-        {
-            //añade solo a la lista del programa, porque al darle al boton de guardar se le pasa la lista, no hay que modificar el repositorio
-            listaClientes.Add(cliente);
+        // verifica si el correo ya se encuentra registrado
+        bool isRegistrado = listaClientes.Any(cl => string.Equals(cl.correo, cliente.correo));
 
-            //await DisplayAlert("Correcto", "El cliente se ha guardado correctamente", "Volver");
-            await DisplayAlert("Correcto", cliente.ToString(), "Volver");
+        if (!isRegistrado)
+        {
+            var isCreado = await DAOService.ModificarInsertarCliente(cliente, true);
+
+            if (isCreado)
+            {
+                await DisplayAlert("Correcto", "El cliente se ha guardado correctamente", "Volver");
+                ActualizarListView();
+            }
+            else await DisplayAlert("Error de insercion", "Algo salió mal al intentar insertar. Vuelva a intentarlo", "Volver");
+            //  else await DisplayAlert("Error de insercion", isCreado, "Volver");
 
         }
         else await DisplayAlert("Error", $"El cliente {cliente.correo} ya esta registrado", "Volver");
@@ -44,22 +61,30 @@ public partial class Altas : ContentPage
     //modifica clientes de la lista, se busca a traves de correo
     private async void onClickModificar(object sender, EventArgs e)
     {
-        //cliente con datos editados
-        cliente = await CrearCliente();
+        var seleccion = lvClientes.SelectedItem;
 
+        // comprueba que haya un cliente seleccionado
+        if (seleccion == null) await DisplayAlert("Error", "No hay cliente seleccionado", "Volver");
 
-        if (cliente != null)
+        else
         {
-            if (!listaClientes.Contains(cliente)) await DisplayAlert("Error", "El cliente no existe", "Volver");
-            else
-            {
-                int indice = listaClientes.FindIndex(c => c.Equals(cliente));
-                listaClientes[indice] = cliente;
-                await DisplayAlert("Correcto", $"Se ha actualizado el cliente {cliente.correo}", "Volver");
-            }
-        }
-        else await DisplayAlert("Error", "No hay cliente seleccionado", "Volver");
+            // en caso de que haya seleccionado uno se puede ya convertir en cliente
+            Cliente clienteSeleccionado = seleccion as Cliente;
 
+            // cliente en memoria con datos editados
+            cliente = await CrearCliente();
+            cliente.id = clienteSeleccionado.id;
+
+            bool isActualizado = await DAOService.ModificarInsertarCliente(cliente, false);
+
+            if (isActualizado)
+            {
+                await DisplayAlert("Correcto", $"Se ha actualizado el cliente {cliente.correo}", "Volver");
+                ActualizarListView();
+                Limpiar();
+            }
+            else await DisplayAlert("Error de actualizado", $"Algo salió mal. Vuelva a intentarlo", "Volver");
+        }
     }
 
     //gestiona la seleccion de un cliente
@@ -79,22 +104,6 @@ public partial class Altas : ContentPage
         Limpiar();
     }
 
-    //guarda en el txt y la lista del repositorio la modifica
-    private async void onClickGuardar(object sender, EventArgs e)
-    {
-        //alamcena en un booleano la respuesta del alert
-        bool confirmacion =
-             await DisplayAlert("Confirmación", "¿Desea guardarlo seguro en el fichero .txt?", "Si", "No");
-
-        //gestion de la respuesta del alert
-        if (confirmacion)
-        {
-            ClienteRepository.SaveAll(listaClientes);
-            ActualizarListView();
-        }
-        else await DisplayAlert("Cancelado", "No se guardaron los cambios", "Volver");
-    }
-
     //crea un cliente
     private async Task<Cliente> CrearCliente()
     {
@@ -102,7 +111,7 @@ public partial class Altas : ContentPage
         listaDatosAlta.Clear();
 
         //si todos los campos estan completos empieza a crear
-        if (TodosCamposCompletos())
+        if (AlmacenarContenidoEntries())
         {
             var nomb = listaDatosAlta[0];
             var apell = listaDatosAlta[1];
@@ -130,23 +139,23 @@ public partial class Altas : ContentPage
     //asigna los atributos de un cliente a toods los Entry de la pantalla Alta
     private void AsignarAtributosEntry()
     {
-        if (cliente != null && listaEntradas != null)
+        if (cliente != null && listaCamposEntrada != null)
         {
-            for (var i = 0; i < listaEntradas.Count; i++)
+            for (var i = 0; i < listaCamposEntrada.Count; i++)
             {
                 switch (i)
                 {
                     case 0:
-                        listaEntradas[i].Text = cliente.nombre;
+                        listaCamposEntrada[i].Text = cliente.nombre;
                         break;
                     case 1:
-                        listaEntradas[i].Text = cliente.apellidos;
+                        listaCamposEntrada[i].Text = cliente.apellidos;
                         break;
                     case 2:
-                        listaEntradas[i].Text = cliente.ciudad;
+                        listaCamposEntrada[i].Text = cliente.ciudad;
                         break;
                     case 3:
-                        listaEntradas[i].Text = cliente.correo;
+                        listaCamposEntrada[i].Text = cliente.correo;
                         break;
                     default:
                         break;
@@ -158,47 +167,49 @@ public partial class Altas : ContentPage
 
         }
     }
-    private void ActualizarListView()
+
+    // acctualiza la lista lateral
+    private async void ActualizarListView()
     {
-        //limpia por si acaso
+        //limpia la lista para evitar valores sucios
         lvClientes.ItemsSource = null;
 
         //asigna la lista del Txt ya actualizada
-        lvClientes.ItemsSource = ClienteRepository.GetClientesTxt();
+        lvClientes.ItemsSource = await DAOService.GetAllClientes();
     }
 
-    //comprueba que los datos intro sean correctos, no sean nulos, etc..
-    private bool TodosCamposCompletos()
+    //Almacena los datos introducidos en los entries y hace comprobaciones
+    private bool AlmacenarContenidoEntries()
     {
-        //todos los campos Entry
-        foreach (var entry in listaEntradas)
+        bool isCorrecto = EntryService.ComprobarContenidoEntries(listaCamposEntrada);
+
+        if (isCorrecto)
         {
-            //si alguno de los campos esta vacio se devuelve al instante false
-            if (string.IsNullOrWhiteSpace(entry.Text)) return false;
+            // Selecciona el texto de todos los campos una vez validados
+            listaDatosAlta = listaCamposEntrada.Select(et => et.Text.Trim()).ToList();
 
-            //añade si esta todo bien
-            listaDatosAlta.Add(entry.Text.Trim());
+            //Campo Editor (comentario) - si esta vacio false de inmediato
+            if (string.IsNullOrWhiteSpace(edComentario.Text)) return false;
 
+            //si todo esta bien añade el comentario y devuelve true
+            listaDatosAlta.Add(edComentario.Text);
+            return true;
         }
-
-        //Campo Editor (comentario) - si esta vacio false de inmediato
-        if (string.IsNullOrWhiteSpace(edComentario.Text)) return false;
-
-        //si todo esta bien añade el comentario y devuelve true
-        listaDatosAlta.Add(edComentario.Text);
-        return true;
+        else return false;
     }
 
-    private  void Limpiar()
+    // Limpia los campos de entrada
+    private void Limpiar()
     {
-        foreach(var entry in listaEntradas)
-        {
-            entry.Text = null;
-        }
+
+        EntryService.LimpiarContenidoEntries(listaCamposEntrada);
 
         cbVip.IsChecked = false;
         edComentario.Text = string.Empty;
+
+        lvClientes.SelectedItem = null;
     }
+
     private void Listeners()
     {
         //checkBox de si es o no vip
@@ -209,19 +220,19 @@ public partial class Altas : ContentPage
 
         };
     }
+
     private void Inicializar()
     {
         //almacena todos los entrys
-        listaEntradas = new List<Entry>
+        listaCamposEntrada = new List<Entry>
         {
           etNombre, etApellidos, etCiudad, etCorreo
         };
 
         listaDatosAlta = new List<string>();
-        //obtiene los clientes del fichero
-        listaClientes = ClienteRepository.GetClientesTxt();
-        //pone en el listView la lista inicial
-        lvClientes.ItemsSource = listaClientes;
+        listaClientes = new List<Cliente>();
+
+        ActualizarListView();
     }
 
 }
