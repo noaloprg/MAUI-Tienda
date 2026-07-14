@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Tienda.DAO;
 using Tienda.Modelo;
+using Tienda.Services;
 
 namespace Tienda;
 
@@ -18,7 +19,7 @@ public partial class Consulta : ContentPage
     }
 
     //solo se utiliza el método cuando es disparado por el listener de los Picker o cuando se elimina un cliente
-    private void SetDatosCollection()
+    private void AplicarFiltros()
     {
         //almacenar los indices del valor seleccionado en los Pickers
         var indCiu = pkCiudad.SelectedIndex;
@@ -69,7 +70,7 @@ public partial class Consulta : ContentPage
         var seleccion = sender as SwipeItem;
         var cliente = seleccion.BindingContext as Cliente;
 
-        bool confirmacion = await DisplayAlert("Eliminar", "¿Seguro que desea eliminar?", "Confirmar", "Cancelar");
+        bool confirmacion = await DialogService.AlertDialogSelect("Eliminar", "¿Seguro que desea eliminar?");
 
         if (confirmacion)
         {
@@ -78,22 +79,24 @@ public partial class Consulta : ContentPage
                 if (!listaClientes.Contains(cliente)) await DisplayAlert("Error", "El cliente no existe", "Volver");
                 else
                 {
-                    listaClientes.Remove(cliente);
-                    await DisplayAlert("Eliminado", $"El cliente {cliente.correo} ha sido eliminado ", "Volver");
-                    SetDatosCollection();
+                    await DAOService.EliminarClienteByCorreo(cliente);
+                    DialogService.AlertDialogCorrecto("Eliminado", $"El cliente {cliente.correo} ha sido eliminado ");
+
+                    ActualizarListaMemoria();
+                    AplicarFiltros();
                 }
             }
-            else await DisplayAlert("Error", "No hay cliente seleccionado", "Volver");
+            else DialogService.AlertDialogCorrecto("Error", "No hay cliente seleccionado");
         }
-        else await DisplayAlert("Cancelado", "No se ha elimnado nada", "Volver");
+        else DialogService.AlertDialogError("Cancelado", "No se ha elimnado nada");
     }
 
     private void Listeners()
     {
         //asignar a los listeners de los Picker lo métodos que modifican el CollectionView
         //cada vez que el index cambia, que ejecute el método que cambia la lista segun los indices
-        pkCiudad.SelectedIndexChanged += (s, e) => SetDatosCollection();
-        pkVip.SelectedIndexChanged += (s, e) => SetDatosCollection();
+        pkCiudad.SelectedIndexChanged += (s, e) => AplicarFiltros();
+        pkVip.SelectedIndexChanged += (s, e) => AplicarFiltros();
 
         // limpia la seleccion de los pickers
         btnSinFiltros.Clicked += (s, e) =>
@@ -110,6 +113,13 @@ public partial class Consulta : ContentPage
         Inicializar();
     }
 
+    // abstrae la logica de actualizar la lista con los datos de la BD
+    private async void ActualizarListaMemoria()
+    {
+        listaClientes = await DAOService.GetAllClientes();
+        cvClientes.ItemsSource = listaClientes;
+    }
+
     private async Task Inicializar()
     {
         listaCiudades = new List<string>();
@@ -118,8 +128,7 @@ public partial class Consulta : ContentPage
             "Vip", "No VIP"
         };
 
-        listaClientes = await DAOService.GetAllClientes();
-        cvClientes.ItemsSource = listaClientes;
+        ActualizarListaMemoria();
 
         AsignarPicker();
         Listeners();
