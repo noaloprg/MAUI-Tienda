@@ -40,7 +40,7 @@ public partial class Altas : ContentPage
         if (cliente == null) return;
 
         // verifica si el correo ya se encuentra registrado
-        bool isRegistrado = listaClientes.Any(cl => string.Equals(cl.correo, cliente.correo));
+        bool isRegistrado = listaClientes.Any(cl => string.Equals(cl.correo, cliente.correo, StringComparison.OrdinalIgnoreCase));
 
         if (!isRegistrado)
         {
@@ -48,14 +48,13 @@ public partial class Altas : ContentPage
 
             if (isCreado)
             {
-                await DisplayAlert("Correcto", "El cliente se ha guardado correctamente", "Volver");
+                DialogService.AlertDialogCorrecto("Guardado", "El cliente se ha guardado correctamente");
                 ActualizarListView();
             }
-            else await DisplayAlert("Error de insercion", "Algo salió mal al intentar insertar. Vuelva a intentarlo", "Volver");
-            //  else await DisplayAlert("Error de insercion", isCreado, "Volver");
+            else DialogService.AlertDialogError("guardado");
 
         }
-        else await DisplayAlert("Error", $"El cliente {cliente.correo} ya esta registrado", "Volver");
+        else DialogService.AlertDialogError("Cliente ya registrado", $"El cliente {cliente.correo} ya esta registrado");
     }
 
     //modifica clientes de la lista, se busca a traves de correo
@@ -64,7 +63,7 @@ public partial class Altas : ContentPage
         var seleccion = lvClientes.SelectedItem;
 
         // comprueba que haya un cliente seleccionado
-        if (seleccion == null) await DisplayAlert("Error", "No hay cliente seleccionado", "Volver");
+        if (seleccion == null) DialogService.AlertDialogError("Cliente no seleccionado", "No hay cliente seleccionado");
 
         else
         {
@@ -79,11 +78,11 @@ public partial class Altas : ContentPage
 
             if (isActualizado)
             {
-                await DisplayAlert("Correcto", $"Se ha actualizado el cliente {cliente.correo}", "Volver");
+                DialogService.AlertDialogCorrecto("Actualizado", $"Se ha actualizado el cliente {cliente.correo}");
                 ActualizarListView();
                 Limpiar();
             }
-            else await DisplayAlert("Error de actualizado", $"Algo salió mal. Vuelva a intentarlo", "Volver");
+            else DialogService.AlertDialogError("actualizado");
         }
     }
 
@@ -131,7 +130,7 @@ public partial class Altas : ContentPage
         }
         else
         {
-            await DisplayAlert("Error", "Todos los campos deben estar rellenos", "Volver");
+            DialogService.AlertDialogError("", "Todos los campos deben estar rellenos");
             return null;
         }
     }
@@ -174,8 +173,10 @@ public partial class Altas : ContentPage
         //limpia la lista para evitar valores sucios
         lvClientes.ItemsSource = null;
 
-        //asigna la lista del Txt ya actualizada
-        lvClientes.ItemsSource = await DAOService.GetAllClientes();
+        //asigna la lista de la BD ya actualizada
+        listaClientes = await DAOService.GetAllClientes();
+
+        lvClientes.ItemsSource = listaClientes;
     }
 
     //Almacena los datos introducidos en los entries y hace comprobaciones
