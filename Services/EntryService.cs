@@ -28,5 +28,15 @@ namespace Tienda.Services
 
             return true;
         }
+
+        // Metodo para normalizar la entrada de datos simples
+        // siempre inicial mayuscula y resto en minusculas y sin espacios
+        public static string NormalizarEntradaDatos(string cadena)
+        {
+            string cadenaSinEspacios = cadena.Trim();
+            string inicial = cadenaSinEspacios.Substring(0, 1).ToUpper() ;
+            string resto = cadenaSinEspacios.Substring(1).ToLower();
+            return inicial + resto;
+        }
     }
 }
