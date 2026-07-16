@@ -29,6 +29,7 @@ public partial class Altas : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
+        ActualizarListView();
         Limpiar();
     }
 
@@ -109,24 +110,35 @@ public partial class Altas : ContentPage
         //limpia para que no se vayan acumulando
         listaDatosAlta.Clear();
 
+
         //si todos los campos estan completos empieza a crear
         if (AlmacenarContenidoEntries())
         {
-            var nomb = listaDatosAlta[0];
-            var apell = listaDatosAlta[1];
-            var ciu = listaDatosAlta[2];
-            var email = listaDatosAlta[3];
-            var coment = listaDatosAlta[4];
+            var email = listaDatosAlta[3].ToLower();
 
-            return new Cliente
+            // verifica el formato del correo
+            if (EntryService.IsCorreoElectronico(email))
             {
-                nombre = nomb,
-                apellidos = apell,
-                ciudad = ciu,
-                correo = email,
-                comentario = coment,
-                vip = cbVip.IsChecked
-            };
+                var nomb = EntryService.NormalizarEntradaDatos(listaDatosAlta[0]);
+                var apell = EntryService.NormalizarEntradaDatos(listaDatosAlta[1]);
+                var ciu = EntryService.NormalizarEntradaDatos(listaDatosAlta[2]);
+                var coment = listaDatosAlta[4];
+
+                return new Cliente
+                {
+                    nombre = nomb,
+                    apellidos = apell,
+                    ciudad = ciu,
+                    correo = email,
+                    comentario = coment,
+                    vip = cbVip.IsChecked
+                };
+            }
+            else
+            {
+                DialogService.AlertDialogError("correo", "El formato del correo es incorrecto. ejemplo@gmail.com ");
+                return null;
+            }
         }
         else
         {
@@ -183,11 +195,10 @@ public partial class Altas : ContentPage
     private bool AlmacenarContenidoEntries()
     {
         bool isCorrecto = EntryService.ComprobarContenidoEntries(listaCamposEntrada);
-
         if (isCorrecto)
         {
             // Selecciona el texto de todos los campos una vez validados
-            listaDatosAlta = listaCamposEntrada.Select(et => et.Text.Trim()).ToList();
+            listaDatosAlta = listaCamposEntrada.Select(et => et.Text).ToList();
 
             //Campo Editor (comentario) - si esta vacio false de inmediato
             if (string.IsNullOrWhiteSpace(edComentario.Text)) return false;
@@ -221,6 +232,7 @@ public partial class Altas : ContentPage
 
         };
     }
+
 
     private void Inicializar()
     {
