@@ -1,3 +1,4 @@
+using Tienda.DAO;
 using Tienda.Modelo;
 
 namespace Tienda;
@@ -18,10 +19,11 @@ public partial class ConsultaIndividual : ContentPage
 
         if (!string.IsNullOrWhiteSpace(textoIntro))
         {
-        
+
             //en una lista nueva almacena el filtrado segun el texto introducitdo en el EditText
+            // compara el texto con el nombre y el apellido
             var filtrado = listaClientes
-                            .Where(cl => cl.nombreCompleto.ToLower().Contains(textoIntro)
+                            .Where(cl => cl.nombre.ToLower().Contains(textoIntro) || cl.apellidos.ToLower().Contains(textoIntro)
                             || cl.ciudad.ToLower().Contains(textoIntro))
                             .ToList();
 
@@ -131,9 +133,9 @@ public partial class ConsultaIndividual : ContentPage
         etBuscador.TextChanged += (s, e) => MostrarElementoBuscado();
 
     }
-    private void Inicializar()
+    private async void Inicializar()
     {
-        listaClientes = ClienteRepository.GetClientesTxt();
+        listaClientes = await DAOService.GetAllClientes();
         cvConsultaIndividual.ItemsSource = listaClientes;
     }
 }
