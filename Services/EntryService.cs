@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Tienda.Services
@@ -34,9 +35,19 @@ namespace Tienda.Services
         public static string NormalizarEntradaDatos(string cadena)
         {
             string cadenaSinEspacios = cadena.Trim();
-            string inicial = cadenaSinEspacios.Substring(0, 1).ToUpper() ;
+            string inicial = cadenaSinEspacios.Substring(0, 1).ToUpper();
             string resto = cadenaSinEspacios.Substring(1).ToLower();
             return inicial + resto;
+        }
+
+        // Metodo para verificar el formato del correo electronico
+        public static bool IsCorreoElectronico(string correo)
+        {
+
+            string formato = "^[\\w\\-\\.]+@([\\w-]+\\.)+[\\w-]{2,}$";
+
+            return Regex.IsMatch(correo, formato);
+
         }
     }
 }
