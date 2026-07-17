@@ -7,6 +7,7 @@ Aplicación móvil/multiplataforma desarrollada en **.NET MAUI** para la gestió
 - [Tecnológias](#tecnologías)
 - [Funcionalidades](#funcionalidades)
 - [Estructura del proyecto](#estructura-del-proyecto)
+- [Probar en local](#probar-en-local)
 
 ## **Tecnologías**
 
